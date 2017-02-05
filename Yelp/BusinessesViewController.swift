@@ -19,10 +19,6 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //search bar delegate stuff
-        searchBar.delegate = self
-        self.filteredData = self.businesses
-        
         tableView.delegate = self
         tableView.dataSource = self
         //in order to enact the autolayout rules for the row height
@@ -33,9 +29,13 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
         
+        //search bar delegate stuff
+        searchBar.delegate = self
+        
         Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             self.businesses = businesses
+            self.filteredData = self.businesses
             self.tableView.reloadData()
             if let businesses = businesses {
                 for business in businesses {
@@ -43,10 +43,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
                     print(business.address!)
                 }
             }
-            
             }
         )
-        
+
         /* Example of Yelp search with more search options specified
          Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
          self.businesses = businesses
@@ -61,13 +60,6 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        /**
-        if businesses != nil {
-            return businesses!.count
-        } else {
-            return 0
-        }
- */
         if let filteredData = filteredData {
             return filteredData.count
         } else {
@@ -84,12 +76,16 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredData = searchText.isEmpty ? businesses : businesses.filter({(business: Business) -> Bool in
-            // If dataItem matches the searchText, return true to include it
-            return business.name!.range(of: searchText, options: .caseInsensitive) != nil
-        })
-        
-        tableView.reloadData()
+        if searchText.isEmpty {
+            self.filteredData = self.businesses
+            print("search text is empty")
+        } else {
+            filteredData = searchText.isEmpty ? businesses : businesses.filter({(business: Business) -> Bool in
+                // If dataItem matches the searchText, return true to include it
+                return business.name!.range(of: searchText, options: .caseInsensitive) != nil
+            })
+            tableView.reloadData()
+        }
     }
     
     override func didReceiveMemoryWarning() {
