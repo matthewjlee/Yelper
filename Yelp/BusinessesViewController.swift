@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     var businesses: [Business]!
     var filteredData: [Business]!
@@ -18,6 +18,10 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //search bar delegate stuff
+        searchBar.delegate = self
+        self.filteredData = self.businesses
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -57,8 +61,15 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        /**
         if businesses != nil {
             return businesses!.count
+        } else {
+            return 0
+        }
+ */
+        if let filteredData = filteredData {
+            return filteredData.count
         } else {
             return 0
         }
@@ -67,9 +78,18 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessCell", for: indexPath as IndexPath) as! BusinessCell
         
-        cell.business = businesses[indexPath.row]
+        cell.business = filteredData[indexPath.row]
         
         return cell
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredData = searchText.isEmpty ? businesses : businesses.filter({(business: Business) -> Bool in
+            // If dataItem matches the searchText, return true to include it
+            return business.name!.range(of: searchText, options: .caseInsensitive) != nil
+        })
+        
+        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
