@@ -157,8 +157,8 @@
 		22AAAA9D1AEA1EC600A544AF /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */,
 				4372B35B1E46C81900019663 /* BusinessViewController.swift */,
+				22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */,
 				4372B35D1E46CEC100019663 /* MapViewController.swift */,
 			);
 			name = "View Controllers";

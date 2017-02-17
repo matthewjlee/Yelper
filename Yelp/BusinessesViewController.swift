@@ -14,6 +14,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     var businesses: [Business]!
     var filteredData: [Business]!
     var searchBar = UISearchBar()
+    var isMoreDateLoading = false
 
     let refreshControl = UIRefreshControl()
     
@@ -61,8 +62,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             self.tableView.reloadData()
             if let businesses = businesses {
                 for business in businesses {
-                    print(business.name!)
-                    print(business.address!)
+                    //print(business.name!)
+                    //print(business.address!)
                 }
             }
         }
@@ -111,12 +112,24 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
      // Get the new view controller using segue.destinationViewController.
      // Pass the selected object to the new view controller.
         
+        /**
         let cell = sender as! UITableViewCell
         let indexPath = tableView.indexPath(for: cell)
         let business = filteredData[indexPath!.row]
         
         let businessViewController = segue.destination as! BusinessViewController
         businessViewController.business = business
+ */
+        
+        if segue.identifier == "mapPush" {
+            let vc = segue.destination as! MapViewController
+            vc.businesses = self.filteredData
+        }
      }
+
+    @IBAction func onTapMap(_ sender: Any) {
+            performSegue(withIdentifier: "mapPush", sender: nil)
+            
+    }
     
 }
