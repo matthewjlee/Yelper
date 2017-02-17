@@ -51,7 +51,7 @@ The following **optional** features are implemented:
 
 - [ ] Search results page
    - [ ] Infinite scroll for restaurant results.
-   - [ ] Implement map view of restaurant results.
+   - [X] Implement map view of restaurant results.
 - [ ] Implement the restaurant detail page.
 
 The following **additional** features are implemented:
@@ -69,6 +69,7 @@ Here's a walkthrough of implemented user stories:
 
 <img src='http://i.imgur.com/rvKByRn.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />  
 <img src='http://i.imgur.com/Mor7oNd.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />  
+<img src='http://i.imgur.com/s301eaw.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
